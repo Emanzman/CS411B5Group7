@@ -1,49 +1,55 @@
-import React from 'react';
-import './UserInput.css'
+import React, { useState } from 'react';
+import './UserInput.css';
+import axios from 'axios';
 
-class UserInput extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            userTopic : null,
-            userCaptions : null,
-            userHashtags : null
-        }
-    }
+const UserInput = (props) => {
+  const [userTopic, setUserTopic] = useState('');
+  const [userCaptions, setUserCaptions] = useState('');
+  const [userHashtags, setUserHashtags] = useState('');
 
-    topicInput(input){
-        this.setState({userTopic : input.target.value})
-    }
+  const handleSubmit = async (e) => {
+    try {
+      const response = await axios.post('/generate', { topic: userTopic });
+      console.log('Resp:', response.data)
+      const { title, hashtags } = response.data;
 
-    captionInput(input){
-        this.setState({userCaptions : input.target.value})
+      props.setCaption(title);
+      props.setTags(hashtags);
+    } catch (error) {
+      console.error('Error generating title and hashtags:', error);
     }
+  };
 
-    hashtagInput(input){
-        this.setState({userHashtags : input.target.value})
-    }
-
-
-    generateButton(){
-        console.log("generating");
-    }
-      
-    render(){
-        return(
-        <div className="fixed-banner">
-            <input onChange={(input)=>{this.topicInput(input)}} type="text" placeholder="Enter some of your previous post captions..." className="input-style"/>
-            <input onChange={(input)=>{this.captionInput(input)}} type="text" placeholder="(Optional) Type your post topic or description..." className="optional-style"/>
-            <input onChange={(input)=>{this.hashtagInput(input)}} type="text" placeholder="Type guaranteed hashtags..." className="shortInput-style"/> 
-            <button onClick={()=>{
-                this.generateButton(); 
-                this.props.setCaption(this.state.userTopic);
-                this.props.setTags(this.state.userHashtags);
-            }} className="generate-button">Generate</button>
-            <button onClick={()=>{this.generateButton()}} className="upload-button">Upload</button>
-            {this.props.userHashtags}
-        </div>
-        ) 
-    }
-}
+  return (
+    <div className="fixed-banner">
+      <form onSubmit={handleSubmit}>
+        <input
+          onChange={(input) => setUserTopic(input.target.value)}
+          type="text"
+          placeholder="Enter some of your previous post captions..."
+          className="input-style"
+        />
+        <input
+          onChange={(input) => setUserCaptions(input.target.value)}
+          type="text"
+          placeholder="(Optional) Type your post topic or description..."
+          className="optional-style"
+        />
+        <input
+          onChange={(input) => setUserHashtags(input.target.value)}
+          type="text"
+          placeholder="Type guaranteed hashtags..."
+          className="shortInput-style"
+        />
+        <button type="submit" className="generate-button" onClick={handleSubmit}>
+          Generate
+        </button>
+      </form>
+      <button onClick={() => console.log('Uploading')} className="upload-button">
+        Upload
+      </button>
+    </div>
+  );
+};
 
 export default UserInput;
