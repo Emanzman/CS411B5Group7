@@ -1,0 +1,81 @@
+.input-style {
+    padding: 10px 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 6px;
+}
+
+.optional-style {
+    padding: 10px 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 6px;
+    background-color: #ddd;
+}
+
+.shortInput-style {
+    padding: 10px 10px;
+    width: 50%;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 6px;
+}
+
+.fixed-banner {
+    position: fixed;
+    bottom: 0;
+    left: 249px;
+    right: 0;
+    padding: 10px;
+    background-color: rgb(120, 120, 120);
+    color: white;
+    box-sizing: border-box;
+}
+
+.upload-button {
+    position: fixed;
+    left:    69%;
+    bottom:   15px;
+    font-size:15px;
+    font-family:Arial;
+    width:100px;
+    height:36px;
+    border-width:1px;
+    color:rgba(0, 0, 0, 1);
+    border-color:rgba(255, 255, 255, 1);
+    font-weight:bold;
+    border-top-left-radius:28px;
+    border-top-right-radius:28px;
+    border-bottom-left-radius:28px;
+    border-bottom-right-radius:28px;
+    background:rgba(170, 170, 170, 1);
+}
+
+.upload-button:hover {
+    background: rgba(206, 206, 206, 1)
+}
+
+.generate-button {
+    position: fixed;
+    left:    84%;
+    bottom:   15px;
+    font-size:15px;
+    font-family:Arial;
+    width:100px;
+    height:36px;
+    border-width:1px;
+    color:rgba(0, 0, 0, 1);
+    border-color:rgba(255, 255, 255, 1);
+    font-weight:bold;
+    border-top-left-radius:28px;
+    border-top-right-radius:28px;
+    border-bottom-left-radius:28px;
+    border-bottom-right-radius:28px;
+    background:rgba(84, 211, 94, 1);
+}
+
+.generate-button:hover {
+    background: rgba(60, 235, 72, 1)
+}

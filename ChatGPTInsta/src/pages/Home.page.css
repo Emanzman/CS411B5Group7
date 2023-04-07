@@ -1,0 +1,14 @@
+.GenerationPage {
+    display: flex;
+    height: 100vh; 
+    width: 100%; 
+    background: rgb(225, 225, 225);
+  }
+  
+  .SideWrap {
+    width: 249px;
+    max-width: 249;
+    height: 100%;
+    background: rgba(33, 33, 33, 1);
+  }
+  
