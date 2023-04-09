@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Instagram Title and Hashtag Generator</title>
+  </head>
+  <body>
+    <h1>Instagram Title and Hashtag Generator</h1>
+    <form method="post">
+      <label for="topic">Topic:</label>
+      <input type="text" id="topic" name="topic" required>
+      <button type="submit">Generate</button>
+    </form>
+
+    {% if title and hashtags %}
+      <h2>Generated Title:</h2>
+      <p>{{ title }}</p>
+      <h2>Popular Hashtags:</h2>
+      <p>{{ hashtags }}</p>
+    {% endif %}
+  </body>
+</html>

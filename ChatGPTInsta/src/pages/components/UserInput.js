@@ -9,7 +9,7 @@ class UserInput extends React.Component {
             userCaptions : null,
             userHashtags : null
         }
-    }
+    }    
 
     topicInput(input){
         this.setState({userTopic : input.target.value})
@@ -24,8 +24,29 @@ class UserInput extends React.Component {
     }
 
 
-    generateButton(){
-        console.log("generating");
+    async generateButton(){
+        console.log("generating...");
+
+        try {
+            const response = await fetch('http://localhost:5000/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic: this.state.userTopic,
+                })
+            });
+            if(response.ok) {
+                const data = await response.json();
+                this.props.setCaption(data.title);
+                this.props.setTags(data.hashtags);
+            } else {
+                console.error("Error generating shit", response.status);
+            }
+        } catch (error) {
+            console.error("error again gunna", error);
+        }
     }
       
     render(){
