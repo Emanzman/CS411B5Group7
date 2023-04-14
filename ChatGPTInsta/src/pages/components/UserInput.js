@@ -35,6 +35,7 @@ class UserInput extends React.Component {
                 },
                 body: JSON.stringify({
                     topic: this.state.userTopic,
+                    userHashtags: this.state.userHashtags
                 })
             });
             if(response.ok) {
