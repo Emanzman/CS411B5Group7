@@ -50,18 +50,25 @@ def generate():
 
 
 def generate_prompt(topic):
-    return f"""Generate an engaging title for your Instagram post related to the topic '{topic}' and provide 5 popular hashtags related to the topic.
+    return f"""Generate an engaging title for your Instagram post related to '{topic}' and provide 3 popular hashtags related to '{topic}'.
 
 Title:
 Hashtags:"""
 
 def parse_response(response_text):
-    lines = response_text.strip().split('\n')
+    # print("RESPONSE TEXT:", response_text)
+    lines = response_text.strip().split('Hashtags:')
+    # print("LINES 0:", lines[0])
+    # print("LINES 1:", lines[1])
+    # print(len(lines))
+    # print("LINES:", lines)
     if(len(lines) < 2):
         return "Title not generated", "Hashtags not generated"
     
     title = lines[0].strip("Title:").strip()
+    # print("THIS IS THE TITLE:", title)
     hashtags = lines[1].strip("Hashtags:").strip()
+    # print("THIS IS THE HASHTAGS:", hashtags)
     return title, hashtags
 
 if __name__ == "__main__":
