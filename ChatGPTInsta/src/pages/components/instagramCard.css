@@ -43,7 +43,8 @@
   display: block;
   margin: 0 auto;
   width: calc(100% - 10px);
-  height: auto;
+  width: calc(100% - 10px);
+  object-fit: cover;
   padding: 0 5px;
 }
 

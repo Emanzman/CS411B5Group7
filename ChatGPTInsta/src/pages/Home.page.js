@@ -6,14 +6,17 @@ import InstagramCard from './components/InstagramCard';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import { Sidebar, Menu, MenuItem, sidebarClasses} from 'react-pro-sidebar';
 
+import stockPic from './stockImages/Sunset Boat Florida Stock.png';
+
 class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
           generatedCaption : null,
-          generatedTags : null
+          generatedTags : null,
+          UserImage : stockPic
         }
-      }
+    }
 
     render(){
     return (
@@ -36,7 +39,6 @@ class Home extends React.Component {
                 backgroundColor: 'rgba(50, 50, 50, 1)',
             },},
             }}>
-            <MenuItem> Profile </MenuItem>
             <MenuItem> Generation </MenuItem>
             </Menu>
         </Sidebar>
@@ -45,12 +47,16 @@ class Home extends React.Component {
     
         <InstagramCard 
         caption={this.state.generatedCaption}
-        tags={this.state.generatedTags}/>
+        tags={this.state.generatedTags}
+        image={this.state.UserImage}
+        />
     
         <UserInput 
         setCaption={(inputCaption)=>{this.setState({generatedCaption : inputCaption})}}
-        setTags={(inputTags)=>{this.setState({generatedTags : inputTags})}}/>
-    
+        setTags={(inputTags)=>{this.setState({generatedTags : inputTags})}}
+        setImage={(inputImage)=>{this.setState({UserImage : inputImage})}}
+        />
+        
         </div>
         );
     }
