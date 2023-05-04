@@ -25,26 +25,16 @@ class UserInput extends React.Component
         this.setState({userHashtags : input.target.value})
     }
 
-    // This function listens to the same port that Flask is running on to get the JSON information from OpenAI API as soon as the user clicks the generate button
-    async generateButton()
-    {
-        try 
-        {
-            handleImageChange(event) 
-            {   
-                event.preventDefault();
-                const selectedImage = event.target.files[0];
+    handleImageChange(event) {
+        const selectedImage = event.target.files[0];
 
-                if(selectedImage)
-                {
-                    const imageUrl = URL.createObjectURL(selectedImage);
-                    this.props.setImage(imageUrl);
-                }
-            }
-        } catch (error) {
-            console.log(error);
+        if(selectedImage){
+            const imageUrl = URL.createObjectURL(selectedImage);
+            this.props.setImage(imageUrl);
         }
     }
+
+    // This function listens to the same port that Flask is running on to get the JSON information from OpenAI API as soon as the user clicks the generate button
 
     async generateButton(){
         try {
