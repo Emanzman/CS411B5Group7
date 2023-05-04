@@ -11,6 +11,7 @@ class UserInput extends React.Component
             userCaptions : null,
             userHashtags : null,
         }
+        this.handleImageChange = this.handleImageChange.bind(this);
     }    
     topicInput(input){
         this.setState({userTopic : input.target.value})
@@ -29,6 +30,24 @@ class UserInput extends React.Component
     {
         try 
         {
+            handleImageChange(event) 
+            {   
+                event.preventDefault();
+                const selectedImage = event.target.files[0];
+
+                if(selectedImage)
+                {
+                    const imageUrl = URL.createObjectURL(selectedImage);
+                    this.props.setImage(imageUrl);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async generateButton(){
+        try {
             const response = await fetch('http://localhost:5000/generate', {
                 method: 'POST',
                 headers: {
@@ -61,18 +80,22 @@ class UserInput extends React.Component
     render(){
         return(
         <div className="fixed-banner">
-            <input onChange={(input)=>{this.topicInput(input)}} type="text" placeholder="Enter some of your previous post captions..." className="input-style"/>
-            <input onChange={(input)=>{this.captionInput(input)}} type="text" placeholder="(Optional) Type your post topic or description..." className="optional-style"/>
+            <input onChange={(input)=>{this.topicInput(input)}} type="text" placeholder="Type your post topic or description: (a boat on the coast) ..." className="input-style"/>
+            <input onChange={(input)=>{this.captionInput(input)}} type="text" placeholder="(Optional) Enter the link to a previous Instagram Post..." className="optional-style"/>
             <input onChange={(input)=>{this.hashtagInput(input)}} type="text" placeholder="Type guaranteed hashtags..." className="shortInput-style"/> 
+
+            <label class="upload-button">
+                <input type="file" accept="image/*" onChange={this.handleImageChange}/> Upload
+            </label>
+
+            {this.props.userHashtags}
             <button onClick={()=>{
                 this.generateButton(); 
                 this.props.setCaption(this.state.userTopic);
                 this.props.setTags(this.state.confinedUserHashtags);
             }} className="generate-button">Generate</button>
-            <button onClick={()=>{this.generateButton()}} className="upload-button">Upload</button>
-            {this.props.userHashtags}
         </div>
-        ) 
+        )
     }
 }
 

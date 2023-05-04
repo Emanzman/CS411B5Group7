@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
 import profilePic from '../stockImages/Instagram.png';
-import postPic from '../stockImages/Sunset Boat Florida Stock.png';
 
 class InstagramCard extends React.Component {
     constructor(props){
@@ -22,7 +21,7 @@ class InstagramCard extends React.Component {
                 </div>
 
                 <div className="instagram-card-image">
-                    <img src={postPic} alt="Post Image" class="instagram-card-image"/>
+                    <img src={this.props.image} alt="Post Image" class="instagram-card-image"/>
                 </div>
 
                 <div className="instagram-card-content">
