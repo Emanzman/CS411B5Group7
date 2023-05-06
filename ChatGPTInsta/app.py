@@ -1,6 +1,8 @@
 import os
 import re
 import openai
+import instaloader
+import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -14,15 +16,15 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route("/generate", methods=["POST"])
 def generate():
     topic = request.json['topic']
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are an AI that generates Instagram post titles and popular hashtags based on a given topic."},
-            {"role": "user", "content": f"Generate a title and 5 hashtags for a post about {topic}."}
-        ],
-        temperature=0.8,
-        max_tokens=150,
-    )
+    user_link = request.json.get('userLink', None)
+
+    if user_link:
+        insta_caption = get_caption_from_link(user_link)
+        prompt = f"Generate a title and 5 hashtags for a post about {topic}. Get inspiration from this Instagram caption: '{insta_caption}'"
+    else:
+        prompt = f"Generate a title and 5 hashtags for a post about {topic}."
+
+    response = chat_completion(prompt)
     title, hashtags = parse_response(response['choices'][0]['message']['content'])
     return jsonify({'title': title, 'hashtags': hashtags})
 
@@ -40,6 +42,33 @@ def parse_response(response_text):
     hashtags = lines[1].strip("Hashtags:").strip()
     hashtags = re.sub(r'\d+\.\s+', '', hashtags) # remove the numbering
     return title, hashtags
+
+#function that gets the caption from the link provided by the user 
+def get_caption_from_link(link):
+    instaLoadInstanace = instaloader.Instaloader()
+    shcode = link.split("/")[-2]
+
+    post = instaloader.Post.from_shortcode(instaLoadInstanace.context, shcode)
+    caption = post.caption
+    return caption
+
+#function needed if we want to add a chatbot feature (if the user does not provide a link... screw you openai)
+def chat_completion(prompt):
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {openai.api_key}'
+    }
+    data = {
+        'model': 'gpt-3.5-turbo',
+        'messages': [
+            {"role": "system", "content": "You are an AI that generates Instagram post titles and popular hashtags based on a given topic."},
+            {"role": "user", "content": prompt}
+        ],
+        'temperature': 0.8,
+        'max_tokens': 150
+    }
+    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+    return response.json()
 
 if __name__ == "__main__":
     app.run(port=3000)
