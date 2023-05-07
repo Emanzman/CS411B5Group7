@@ -2,12 +2,27 @@ import { Button, TextField } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/user.context";
+
  
 const Login = () => {
+  
   // Google OAuth Additions
+
+  const navigate = useNavigate();
+  const location = useLocation(); 
+
+  const onSuccess = (response) => {
+    console.log(response);
+    navigate('/home');
+
+
+  };
+
   function handleCallbackResponse(response){
     console.log("Encoded JWT ID token: " + response.credential);
+    onSuccess(response);
   }
+
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -17,7 +32,7 @@ const Login = () => {
     script.onload = () => {
       /* global google */
       google.accounts.id.initialize({
-        client_id: "132259463199-5hkv51el9pskuaik0r98c6c6ro2i9jk7.apps.googleusercontent.com",
+        client_id: "1043758507172-1iamsogjq2jqviidq54lt1bvnh76k834.apps.googleusercontent.com",
         callback: handleCallbackResponse,
       });
       google.accounts.id.renderButton(document.getElementById("signInDiv"), {
@@ -26,10 +41,12 @@ const Login = () => {
       });
     };
     document.head.appendChild(script);
+
+
   }, []);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+
+
   
   // Set user values here
   const { user, fetchUser, emailPasswordLogin } = useContext(UserContext);
@@ -49,7 +66,7 @@ const Login = () => {
   // Redirection
   const redirectNow = () => {
     const redirectTo = location.search.replace("?redirectTo=", "");
-    navigate(redirectTo ? redirectTo : "/");
+    navigate(redirectTo ? redirectTo : "/home");
   }
   
   // User login checker to make sure they go to the main page if they've already logged in
